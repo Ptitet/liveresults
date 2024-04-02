@@ -1,6 +1,6 @@
 # Liveresults web client
 
-This is a responsive web client for [Liveresults](http://liveresultat.orientering.se).
+This is a responsive web client for [Liveresults](https://liveresultat.orientering.se).
 
 # Project status
 
