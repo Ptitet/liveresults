@@ -25,9 +25,13 @@ let notLiveTodayList = document.querySelector('section#not-live-today ul');
 
 let groupedNotLiveTodayCompetitions = Object.groupBy(notLiveTodayCompetitions, ({ date }) => date);
 
-for (let competition of liveTodayCompetitions) {
-    let listItem = generateCompetitionLink(competition);
-    liveTodayList.appendChild(listItem);
+if (liveTodayCompetitions.length === 0) {
+    liveTodayList.innerText = 'Aucune compétition aujourd\'hui.';
+} else {
+    for (let competition of liveTodayCompetitions) {
+        let listItem = generateCompetitionLink(competition);
+        liveTodayList.appendChild(listItem);
+    }
 }
 
 for (let date in groupedNotLiveTodayCompetitions) {
