@@ -46,6 +46,9 @@ section ul {
   gap: 1em;
   margin: 1em;
 }
+section ul a:visited {
+  color: #0066cc;
+}
 section#live-today ul {
   margin-left: 1em;
 }
