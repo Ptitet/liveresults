@@ -79,6 +79,7 @@ export default class LiveresultsAPI {
                 LiveresultsAPI.cacheManager.requestCache.delete(URLCacheKey);
                 let cacheData = JSON.stringify(apiResponse);
                 LiveresultsAPI.cacheManager.dataCache.set(apiResponse.hash, cacheData);
+                LiveresultsAPI.cacheManager.requestCache.set(URLCacheKey, apiResponse.hash);
                 return apiResponse;
             }
         } else if (apiResponse.hash) {
