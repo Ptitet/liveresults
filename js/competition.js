@@ -9,7 +9,7 @@ document.querySelector('h2').textContent = competition.name;
 document.querySelector('span#competition-date').textContent = formatDate(competition.date);
 document.querySelector('span#competition-organizer').textContent = competition.organizer;
 
-let competitionClasses = (await LiveresultsAPI.getClasses(competitionId)).classes;
+let competitionClasses = (await LiveresultsAPI.getClasses(competitionId));
 let classList = document.querySelector('ul');
 let tableResultBody = document.querySelector('section#results tbody');
 
@@ -17,13 +17,13 @@ for (let competitionClass of competitionClasses) {
     let listItem = document.createElement('li');
     let link = document.createElement('a');
     // link.href = `category.html?id=${competitionClass.className}`;
-    link.textContent = competitionClass.className;
+    link.textContent = competitionClass;
     listItem.appendChild(link);
     classList.appendChild(listItem);
 
     link.addEventListener('click', async (event) => {
         event.preventDefault();
-        let apiResponse = await LiveresultsAPI.getClassResults(competitionId, competitionClass.className);
+        let apiResponse = await LiveresultsAPI.getClassResults(competitionId, competitionClass);
         let classResults = apiResponse.results;
         classResults.sort((a, b) => +a.place - +b.place); // make sure the results are sorted
         console.log(classResults);
