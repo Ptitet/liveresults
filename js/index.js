@@ -55,7 +55,26 @@ function generateCompetitionLink(competition) {
     let listItem = document.createElement('li');
     let link = document.createElement('a');
     link.href = `competition.html?id=${competition.id}`;
-    link.textContent = competition.name;
+    link.textContent = `${competition.name} - ${competition.organizer}`;
     listItem.appendChild(link);
     return listItem;
 }
+
+let searchInput = document.querySelector('#search input');
+let searchResults = document.querySelector('#search-results');
+searchInput.addEventListener('input', event => {
+    let query = event.target.value;
+    searchResults.innerText = '';
+    if (query.length < 2) {
+        return;
+    }
+    let results = competitions.filter(competition => {
+        let competitionNameMatch = competition.name.toLowerCase().includes(query.toLowerCase());
+        let competitionOrganizerMatch = competition.organizer.toLowerCase().includes(query.toLowerCase());
+        return competitionNameMatch || competitionOrganizerMatch;
+    });
+    for (let competition of results) {
+        let listItem = generateCompetitionLink(competition);
+        searchResults.appendChild(listItem);
+    }
+});
