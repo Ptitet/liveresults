@@ -60,34 +60,35 @@ export default class LiveresultsAPI {
         let url = new URL(LiveresultsAPI.url);
         url.search = searchParams.toString();
         let requestURL = LiveresultsAPI.corsProxyURL + url.toString();
+        let URLCacheKey = url.search.slice(1);
         // console.log(`Request cache: ${JSON.stringify(Object.fromEntries(LiveresultsAPI.cacheManager.requestCache.entries()))}`);
         // console.log(`Data cache: ${JSON.stringify(Object.fromEntries(LiveresultsAPI.cacheManager.dataCache.entries()))}`);
-        let lastHash = LiveresultsAPI.cacheManager.checkRequest(requestURL);
+        let lastHash = LiveresultsAPI.cacheManager.checkRequest(URLCacheKey);
         if (lastHash) {
             requestURL += `&last_hash=${lastHash}`;
         }
         let apiResponse = await (await fetch(requestURL)).json();
         if (lastHash) {
             if (apiResponse.status === 'NOT MODIFIED') {
-                console.log(`Cache hit for ${requestURL}`);
+                console.log(`Cache hit for ${URLCacheKey}`);
                 let cacheData = LiveresultsAPI.cacheManager.dataCache.get(lastHash);
                 return JSON.parse(cacheData);
             } else {
-                console.log(`Cache miss for ${requestURL}`);
+                console.log(`Cache miss for ${URLCacheKey}`);
                 LiveresultsAPI.cacheManager.dataCache.delete(lastHash);
-                LiveresultsAPI.cacheManager.requestCache.delete(requestURL);
+                LiveresultsAPI.cacheManager.requestCache.delete(URLCacheKey);
                 let cacheData = JSON.stringify(apiResponse);
                 LiveresultsAPI.cacheManager.dataCache.set(apiResponse.hash, cacheData);
                 return apiResponse;
             }
         } else if (apiResponse.hash) {
-            console.log(`Initializing cache for ${requestURL}`);
+            console.log(`Initializing cache for ${URLCacheKey}`);
             let cacheData = JSON.stringify(apiResponse);
             LiveresultsAPI.cacheManager.dataCache.set(apiResponse.hash, cacheData);
-            LiveresultsAPI.cacheManager.requestCache.set(requestURL, apiResponse.hash);
+            LiveresultsAPI.cacheManager.requestCache.set(URLCacheKey, apiResponse.hash);
             return apiResponse;
         } else {
-            console.log(`Can't use cache for ${requestURL}`);
+            console.log(`Can't use cache for ${URLCacheKey}`);
             return apiResponse;
         }
     }

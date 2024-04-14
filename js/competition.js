@@ -25,7 +25,6 @@ for (let competitionClass of competitionClasses) {
         event.preventDefault();
         let classResults = await LiveresultsAPI.getClassResults(competitionId, competitionClass);
         classResults.sort((a, b) => +a.place - +b.place); // make sure the results are sorted
-        console.log(classResults);
         let newChildren = [];
         for (const runner of classResults) {
             let runnerRow = document.createElement('tr');
