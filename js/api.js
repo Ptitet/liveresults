@@ -1,14 +1,57 @@
+class CacheManager {
+    /**
+     * The requests cache
+     * @type {Map<string, string>}
+     */
+    requestCache;
+    /**
+     * The data cache
+     * @type {Map<string, string>}
+     */
+    dataCache;
+
+    constructor() {
+        this.loadCacheFromLocalStorage();
+    }
+
+    loadCacheFromLocalStorage() {
+        let requestCache = localStorage.getItem('requestCache');
+        if (requestCache !== '{}' && requestCache) {
+            this.requestCache = new Map(Object.entries(JSON.parse(requestCache)));
+        } else {
+            this.requestCache = new Map();
+        }
+
+        let dataCache = localStorage.getItem('dataCache');
+        if (dataCache  !== '{}' && dataCache) {
+            this.dataCache = new Map(Object.entries(JSON.parse(dataCache)));
+        } else {
+            this.dataCache = new Map();
+        }
+    }
+
+    saveCacheToLocalStorage() {
+        localStorage.setItem('requestCache', JSON.stringify(Object.fromEntries(this.requestCache.entries())));
+        localStorage.setItem('dataCache', JSON.stringify(Object.fromEntries(this.dataCache.entries())));
+    }
+
+    checkRequest(requestURL) {
+        return this.requestCache.get(requestURL);
+    }
+}
+
 export default class LiveresultsAPI {
     static corsProxyURL = 'https://corsproxy.io/?';
     static url = 'http://liveresultat.orientering.se/api.php';
+    static cacheManager = new CacheManager();
 
     /**
      * Makes a call to the Liveresults API
      * @param {string} method The method to call in the API
      * @param {*} params The parameters to pass to the API
-     * @returns {Promise<Response>} The response from the API
+     * @returns {Promise<any>} The response from the API
      */
-    static makeAPICall(method, params) {
+    static async makeAPICall(method, params) {
         let searchParams = new URLSearchParams();
         searchParams.set('method', method);
         for (let key in params) {
@@ -17,7 +60,36 @@ export default class LiveresultsAPI {
         let url = new URL(LiveresultsAPI.url);
         url.search = searchParams.toString();
         let requestURL = LiveresultsAPI.corsProxyURL + url.toString();
-        return fetch(requestURL);
+        // console.log(`Request cache: ${JSON.stringify(Object.fromEntries(LiveresultsAPI.cacheManager.requestCache.entries()))}`);
+        // console.log(`Data cache: ${JSON.stringify(Object.fromEntries(LiveresultsAPI.cacheManager.dataCache.entries()))}`);
+        let lastHash = LiveresultsAPI.cacheManager.checkRequest(requestURL);
+        if (lastHash) {
+            requestURL += `&last_hash=${lastHash}`;
+        }
+        let apiResponse = await (await fetch(requestURL)).json();
+        if (lastHash) {
+            if (apiResponse.status === 'NOT MODIFIED') {
+                console.log(`Cache hit for ${requestURL}`);
+                let cacheData = LiveresultsAPI.cacheManager.dataCache.get(lastHash);
+                return JSON.parse(cacheData);
+            } else {
+                console.log(`Cache miss for ${requestURL}`);
+                LiveresultsAPI.cacheManager.dataCache.delete(lastHash);
+                LiveresultsAPI.cacheManager.requestCache.delete(requestURL);
+                let cacheData = JSON.stringify(apiResponse);
+                LiveresultsAPI.cacheManager.dataCache.set(apiResponse.hash, cacheData);
+                return apiResponse;
+            }
+        } else if (apiResponse.hash) {
+            console.log(`Initializing cache for ${requestURL}`);
+            let cacheData = JSON.stringify(apiResponse);
+            LiveresultsAPI.cacheManager.dataCache.set(apiResponse.hash, cacheData);
+            LiveresultsAPI.cacheManager.requestCache.set(requestURL, apiResponse.hash);
+            return apiResponse;
+        } else {
+            console.log(`Can't use cache for ${requestURL}`);
+            return apiResponse;
+        }
     }
 
     /**
@@ -36,8 +108,7 @@ export default class LiveresultsAPI {
      */
     static async getCompetitions() {
         let response = await this.makeAPICall('getcompetitions');
-        let data = await response.text();
-        return this.clearAndParseJSON(data).competitions;
+        return response.competitions;
     }
 
     /**
@@ -47,8 +118,7 @@ export default class LiveresultsAPI {
      */
     static async getCompetition(competitionId) {
         let response = await this.makeAPICall('getcompetitioninfo', { comp: competitionId });
-        let data = await response.text();
-        return this.clearAndParseJSON(data);
+        return response;
     }
 
     /**
@@ -58,7 +128,7 @@ export default class LiveresultsAPI {
      */
     static async getLastPassings(competitionId) {
         let response = await this.makeAPICall('getlastpassings', { comp: competitionId });
-        return (await response.json()).passings;
+        return response.passings;
     }
 
     /**
@@ -68,7 +138,7 @@ export default class LiveresultsAPI {
      */
     static async getClasses(competitionId) {
         let response = await this.makeAPICall('getclasses', { comp: competitionId });
-        return (await response.json()).classes.map(c => c.className);
+        return response.classes.map(c => c.className);
     }
 
     /**
@@ -79,7 +149,7 @@ export default class LiveresultsAPI {
      */
     static async getClassResults(competitionId, className) {
         let response = await this.makeAPICall('getclassresults', { comp: competitionId, class: className, unformattedTimes: true });
-        return (await response.json()).results;
+        return response.results;
     }
 
     /**
@@ -90,6 +160,11 @@ export default class LiveresultsAPI {
      */
     static async getClubResults(competitionId, clubName) {
         let response = await this.makeAPICall('getclubresults', { comp: competitionId, club: clubName, unformattedTimes: true });
-        return (await response.json()).results;
+        return response.results;
     }
+}
+
+window.onbeforeunload = () => {
+    console.log('Saving cache to local storage');
+    LiveresultsAPI.cacheManager.saveCacheToLocalStorage();
 }

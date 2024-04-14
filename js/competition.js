@@ -23,8 +23,7 @@ for (let competitionClass of competitionClasses) {
 
     link.addEventListener('click', async (event) => {
         event.preventDefault();
-        let apiResponse = await LiveresultsAPI.getClassResults(competitionId, competitionClass);
-        let classResults = apiResponse.results;
+        let classResults = await LiveresultsAPI.getClassResults(competitionId, competitionClass);
         classResults.sort((a, b) => +a.place - +b.place); // make sure the results are sorted
         console.log(classResults);
         let newChildren = [];
