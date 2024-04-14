@@ -150,7 +150,7 @@ export default class LiveresultsAPI {
      * @returns {Promise<{place: string, name: string, club: string, result: string, status: number, timeplus: string, progress: number, start: number}[]>} The results for the class
      */
     static async getClassResults(competitionId, className) {
-        let response = await this.makeAPICall('getclassresults', { comp: competitionId, class: className, unformattedTimes: true });
+        let response = await this.makeAPICall('getclassresults', { comp: competitionId, class: className});
         return response.results;
     }
 
@@ -161,7 +161,7 @@ export default class LiveresultsAPI {
      * @returns {Promise<{place: string, name: string, club: string, class: string, result: string, status: number, timeplus: string, start: number}[]>} The results of the club
      */
     static async getClubResults(competitionId, clubName) {
-        let response = await this.makeAPICall('getclubresults', { comp: competitionId, club: clubName, unformattedTimes: true });
+        let response = await this.makeAPICall('getclubresults', { comp: competitionId, club: clubName});
         return response.results;
     }
 }
