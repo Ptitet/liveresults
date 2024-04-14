@@ -65,9 +65,11 @@ function generateCompetitionLink(competition) {
 
 let searchInput = document.querySelector('#search input');
 let searchResults = document.querySelector('#search-results');
+let resultsCount = document.querySelector('#result-count');
 searchInput.addEventListener('input', event => {
     let query = event.target.value;
     searchResults.innerText = '';
+    resultsCount.textContent = '';
     if (query.length < 2) {
         return;
     }
@@ -82,4 +84,5 @@ searchInput.addEventListener('input', event => {
         listItem.firstChild.innerText += ` - ${competition.date}`;
         searchResults.appendChild(listItem);
     }
+    resultsCount.textContent = `${results.length} resultat${results.length === 1 ? '' : 's'}`;
 });
