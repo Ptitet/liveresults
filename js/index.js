@@ -1,4 +1,5 @@
 import LiveresultsAPI from './api.js';
+import { formatDate } from './utils.js';
 
 let competitions = await LiveresultsAPI.getCompetitions();
 
@@ -10,28 +11,51 @@ function areDatesSameDay(date1, date2) {
 
 let todayDate = new Date();
 
-let notLiveTodayCompetitions = [];
-let liveTodayCompetitions = [];
-
-for (let competition of competitions) {
-    if (areDatesSameDay(new Date(competition.date), todayDate)) {
-        liveTodayCompetitions.push(competition);
-    } else {
-        notLiveTodayCompetitions.push(competition);
-    }
+function isDateInFuture(date) {
+    return date.getTime() > todayDate.getTime();
 }
+
+competitions = competitions.filter(competition => !isDateInFuture(new Date(competition.date)));
+
+let liveTodayCompetitions = competitions.filter(competition => areDatesSameDay(new Date(competition.date), todayDate));
+let notLiveTodayCompetitions = competitions.filter(competition => !areDatesSameDay(new Date(competition.date), todayDate));
 
 let liveTodayList = document.querySelector('section#live-today ul');
 let notLiveTodayList = document.querySelector('section#not-live-today ul');
 
+let groupedNotLiveTodayCompetitions = Object.groupBy(notLiveTodayCompetitions, ({ date }) => date);
+
 for (let competition of liveTodayCompetitions) {
-    let listItem = document.createElement('li');
-    listItem.textContent = competition.name;
+    let listItem = generateCompetitionLink(competition);
     liveTodayList.appendChild(listItem);
 }
 
-for (let competition of notLiveTodayCompetitions) {
+for (let date in groupedNotLiveTodayCompetitions) {
+    let competitionsList = generateDateContainer(date);
+
+    for (let competition of groupedNotLiveTodayCompetitions[date]) {
+        let listItem = generateCompetitionLink(competition);
+        competitionsList.appendChild(listItem);
+    }
+}
+
+function generateDateContainer(date) {
+    let container = document.createElement('li');
+    container.classList.add('date-container');
+    let dateSpan = document.createElement('span');
+    dateSpan.textContent = formatDate(date);
+    container.appendChild(dateSpan);
+    let competitionsList = document.createElement('ul');
+    container.appendChild(competitionsList);
+    notLiveTodayList.appendChild(container);
+    return competitionsList;
+}
+
+function generateCompetitionLink(competition) {
     let listItem = document.createElement('li');
-    listItem.textContent = competition.name;
-    notLiveTodayList.appendChild(listItem);
+    let link = document.createElement('a');
+    link.href = `competition.html?id=${competition.id}`;
+    link.textContent = competition.name;
+    listItem.appendChild(link);
+    return listItem;
 }

@@ -40,6 +40,84 @@ main {
 }
 
 section {
-    padding: 2em;
+    padding: 1em;
     border: 1px solid $primary-color;
+
+    ul {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        margin: 1em;
+    }
+
+    &#live-today ul {
+        margin-left: 1em;
+    }
+
+    &#competition-infos {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    &#classes {
+
+        ul {
+            display: flex;
+            flex-direction: row;
+            overflow-x: scroll;
+            padding-bottom: 15px;
+            padding: 10px 0 20px;
+            margin: 0;
+
+            a {
+                border: 1px solid $primary-color;
+                border-radius: 20px;
+                padding: 5px 10px;
+                display: inline;
+                white-space: nowrap;
+                cursor: pointer;
+            }
+        }
+    }
+
+    &#results {
+        &.hidden {
+            display: none;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+
+            th, td {
+                padding: 10px 0;
+                text-align: center;
+            }
+
+            tr {
+                border-top: 1px solid $primary-color;
+            }
+
+            thead tr {
+                border-top: none;
+                position: sticky;
+                top: 0;
+                background: #333;
+            }
+        }
+    }
+}
+
+.date-container {
+    border: 1px solid $primary-color;
+    padding: 0.5em;
+
+    span {
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+
+    ul {
+        gap: 0.5em;
+    }
 }

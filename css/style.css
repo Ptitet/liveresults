@@ -37,6 +37,67 @@ main {
 }
 
 section {
-  padding: 2em;
+  padding: 1em;
   border: 1px solid #ec7404;
+}
+section ul {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  margin: 1em;
+}
+section#live-today ul {
+  margin-left: 1em;
+}
+section#competition-infos {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+section#classes ul {
+  display: flex;
+  flex-direction: row;
+  overflow-x: scroll;
+  padding-bottom: 15px;
+  padding: 10px 0 20px;
+  margin: 0;
+}
+section#classes ul a {
+  border: 1px solid #ec7404;
+  border-radius: 20px;
+  padding: 5px 10px;
+  display: inline;
+  white-space: nowrap;
+  cursor: pointer;
+}
+section#results.hidden {
+  display: none;
+}
+section#results table {
+  border-collapse: collapse;
+  width: 100%;
+}
+section#results table th, section#results table td {
+  padding: 10px 0;
+  text-align: center;
+}
+section#results table tr {
+  border-top: 1px solid #ec7404;
+}
+section#results table thead tr {
+  border-top: none;
+  position: sticky;
+  top: 0;
+  background: #333;
+}
+
+.date-container {
+  border: 1px solid #ec7404;
+  padding: 0.5em;
+}
+.date-container span {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+.date-container ul {
+  gap: 0.5em;
 }

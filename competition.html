@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liveresults -</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script type="module" src="js/competition.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <h1>Liveresults</h1>
+    </header>
+    <main>
+        <section id="competition-infos">
+            <h2 id="competition-name"></h2>
+            <span id="competition-organizer"></span>
+            <span id="competition-date"></span>
+        </section>
+        <section id="classes">
+            <h2>Catégories</h2>
+            <div id="scroll-fade-wrapper">
+                <ul></ul>
+            </div>
+        </section>
+        <section id="results" class="hidden">
+            <h2>Résultats</h2>
+            <div id="scroll-fade-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Position</th>
+                            <th>Nom</th>
+                            <th>Temps</th>
+                            <th>Différence</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+        </section>
+    </main>
+</body>
+
+</html>
