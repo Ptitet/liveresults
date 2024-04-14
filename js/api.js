@@ -167,6 +167,5 @@ export default class LiveresultsAPI {
 }
 
 window.onbeforeunload = () => {
-    console.log('Saving cache to local storage');
     LiveresultsAPI.cacheManager.saveCacheToLocalStorage();
 }
