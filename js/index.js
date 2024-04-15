@@ -103,5 +103,5 @@ searchInput.addEventListener('input', event => {
         listItem.firstChild.appendChild(dateElement);
         searchResults.appendChild(listItem);
     }
-    resultsCount.textContent = `${results.length} resultat${results.length === 1 ? '' : 's'}`;
+    resultsCount.textContent = `${results.length} résultat${results.length === 1 ? '' : 's'}`;
 });
