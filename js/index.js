@@ -47,22 +47,35 @@ for (let date in groupedNotLiveTodayCompetitions) {
 }
 
 function generateDateContainer(date) {
-    let container = document.createElement('li');
-    container.classList.add('date-container');
-    let dateSpan = document.createElement('span');
-    dateSpan.textContent = date;
-    container.appendChild(dateSpan);
-    let competitionsList = document.createElement('ul');
-    container.appendChild(competitionsList);
-    notLiveTodayList.appendChild(container);
-    return competitionsList;
+    let listItem = document.createElement('li');
+    let label = document.createElement('label');
+    let checkBox = document.createElement('input');
+    checkBox.type = 'checkbox';
+    let dateElement = document.createElement('h2');
+    dateElement.textContent = date;
+    label.appendChild(dateElement);
+    let replacedDate = date.replace(/\//g, '');
+    label.htmlFor = replacedDate;
+    checkBox.id = replacedDate;
+    listItem.appendChild(checkBox);
+    listItem.appendChild(label);
+    let thisDateCompetitionsList = document.createElement('ul');
+    thisDateCompetitionsList.classList.add('competitions-list');
+    listItem.appendChild(thisDateCompetitionsList);
+    notLiveTodayList.appendChild(listItem);
+    return thisDateCompetitionsList;
 }
 
 function generateCompetitionLink(competition) {
     let listItem = document.createElement('li');
     let link = document.createElement('a');
     link.href = `competition.html?id=${competition.id}`;
-    link.textContent = `${competition.name} - ${competition.organizer}`;
+    let competitionName = document.createElement('h3');
+    competitionName.textContent = competition.name;
+    let competitionOrganizer = document.createElement('p');
+    competitionOrganizer.textContent = competition.organizer;
+    link.appendChild(competitionName);
+    link.appendChild(competitionOrganizer);
     listItem.appendChild(link);
     return listItem;
 }
@@ -85,7 +98,9 @@ searchInput.addEventListener('input', event => {
     });
     for (let competition of results) {
         let listItem = generateCompetitionLink(competition);
-        listItem.firstChild.innerText += ` - ${competition.date}`;
+        let dateElement = document.createElement('p');
+        dateElement.innerText = competition.date;
+        listItem.firstChild.appendChild(dateElement);
         searchResults.appendChild(listItem);
     }
     resultsCount.textContent = `${results.length} resultat${results.length === 1 ? '' : 's'}`;

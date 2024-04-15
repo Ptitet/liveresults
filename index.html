@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-    <title>Liveresults</title>
     <script type="module" src="js/index.js" defer></script>
+    <link rel="stylesheet" href="css/style2.css">
+    <title>Liveresults</title>
 </head>
 
 <body>
@@ -15,18 +15,39 @@
     </header>
     <main>
         <section id="search">
-            <h2>Rechercher une compétition</h2>
+            <h2 class="section-title">Rechercher</h2>
             <input type="search">
             <p id="result-count"></p>
-            <ul id="search-results"></ul>
+            <ul id="search-results" class="competitions-list"></ul>
         </section>
         <section id="live-today">
-            <h2>Live aujourd'hui</h2>
-            <ul></ul>
+            <h2 class="section-title">Live aujourd'hui</h2>
+            <ul class="competitions-list">
+                <li><a href="#">
+                        <h3>CF 2024</h3>
+                        <p>Cote66</p>
+                    </a></li>
+                <li><a href="#">
+                        <h3>Relais Sprint Courchevel</h3>
+                        <p>FFCO</p>
+                    </a></li>
+                <li><a href="#">
+                        <h3>Olala OkLab</h3>
+                        <p>CS TranSilva</p>
+                    </a></li>
+                <li><a href="#">
+                        <h3>Nocturne Saint-Pétersbourg</h3>
+                        <p>FRO</p>
+                    </a></li>
+                <li><a href="#">
+                        <h3>Gigachad run LD</h3>
+                        <p>Sjövalla FK</p>
+                    </a></li>
+            </ul>
         </section>
         <section id="not-live-today">
-            <h2>Autres compétitions</h2>
-            <ul></ul>
+            <h2 class="section-title">Autres compétitions</h2>
+            <ul id="date-list"></ul>
         </section>
     </main>
 </body>
