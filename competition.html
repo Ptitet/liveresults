@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liveresults -</title>
     <link rel="stylesheet" href="css/style.css">
     <script type="module" src="js/competition.js" defer></script>
+    <title>Liveresults</title>
 </head>
 
 <body>
@@ -15,30 +15,29 @@
     </header>
     <main>
         <section id="competition-infos">
-            <h2 id="competition-name"></h2>
-            <span id="competition-organizer"></span>
-            <span id="competition-date"></span>
+            <h2 class="section-title">Compétition</h2>
+            <h3 id="competition-name"></h3>
+            <p>Organisateur : <span id="competition-organizer"></span></p>
+            <p>Date : <span id="competition-date"></span></p>
         </section>
         <section id="classes">
-            <h2>Catégories</h2>
-            <div id="scroll-fade-wrapper">
-                <ul></ul>
-            </div>
+            <h2 class="section-title">Catégories</h2>
+            <ul></ul>
         </section>
-        <section id="results" class="hidden">
-            <h2>Résultats</h2>
-            <div id="scroll-fade-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Position</th>
-                            <th>Nom</th>
-                            <th>Temps</th>
-                            <th>Différence</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+        <section id="results">
+            <h2 class="section-title">Résultats</h2>
+            <table class="hidden">
+                <thead>
+                    <tr>
+                        <th id="place">Position</th>
+                        <th id="name">Nom</th>
+                        <th id="result">Temps</th>
+                        <th id="timeplus">Différence</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <p>Choisissez une catégorie</p>
         </section>
     </main>
 </body>
