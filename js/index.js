@@ -12,13 +12,17 @@ function areDatesSameDay(date1, date2) {
 let todayDate = new Date();
 
 function isDateInFuture(date) {
-    return date.getTime() > todayDate.getTime();
+    return date.getFullYear() > todayDate.getFullYear() ||
+        (date.getFullYear() === todayDate.getFullYear() && date.getMonth() > todayDate.getMonth()) ||
+        (date.getFullYear() === todayDate.getFullYear() && date.getMonth() === todayDate.getMonth() && date.getDate() > todayDate.getDate());
 }
 
 competitions = competitions.filter(competition => !isDateInFuture(new Date(competition.date))).map(competition => {
-    competition.date = formatDate(competition.date);
+    competition.formattedDate = formatDate(competition.date);
     return competition;
 });
+
+console.log(competitions);
 
 let liveTodayCompetitions = competitions.filter(competition => areDatesSameDay(new Date(competition.date), todayDate));
 let notLiveTodayCompetitions = competitions.filter(competition => !areDatesSameDay(new Date(competition.date), todayDate));
@@ -26,7 +30,7 @@ let notLiveTodayCompetitions = competitions.filter(competition => !areDatesSameD
 let liveTodayList = document.querySelector('section#live-today ul');
 let notLiveTodayList = document.querySelector('section#not-live-today ul');
 
-let groupedNotLiveTodayCompetitions = Object.groupBy(notLiveTodayCompetitions, ({ date }) => date);
+let groupedNotLiveTodayCompetitions = Object.groupBy(notLiveTodayCompetitions, ({ formattedDate }) => formattedDate);
 
 if (liveTodayCompetitions.length === 0) {
     liveTodayList.innerText = 'Aucune compétition aujourd\'hui.';
@@ -93,13 +97,13 @@ searchInput.addEventListener('input', event => {
     let results = competitions.filter(competition => {
         let competitionNameMatch = competition.name.toLowerCase().includes(query.toLowerCase());
         let competitionOrganizerMatch = competition.organizer.toLowerCase().includes(query.toLowerCase());
-        let competitionDateMatch = competition.date.includes(query);
+        let competitionDateMatch = competition.date.includes(query) || competition.formattedDate.includes(query);
         return competitionNameMatch || competitionOrganizerMatch || competitionDateMatch;
     });
     for (let competition of results) {
         let listItem = generateCompetitionLink(competition);
         let dateElement = document.createElement('p');
-        dateElement.innerText = competition.date;
+        dateElement.innerText = competition.formattedDate;
         listItem.firstChild.appendChild(dateElement);
         searchResults.appendChild(listItem);
     }
