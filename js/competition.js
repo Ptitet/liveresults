@@ -2,7 +2,22 @@ import LiveresultsAPI from './api.js';
 import { formatDate } from './utils.js';
 
 let competitionId = new URLSearchParams(window.location.search).get('id');
-let competition = await LiveresultsAPI.getCompetition(competitionId);
+
+if (!competitionId) {
+    window.location.href = '/';
+}
+
+let competition;
+
+try {
+    competition = await LiveresultsAPI.getCompetition(competitionId);
+} catch (error) {
+    window.location.href = '/';
+}
+
+if (!competition.date) {
+    window.location.href = '/';
+}
 
 document.title += ` - ${competition.name}`;
 document.querySelector('h3').textContent = competition.name;
