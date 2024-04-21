@@ -31,6 +31,8 @@ let competitionClasses = (await LiveresultsAPI.getClasses(competitionId));
 let classList = document.querySelector('#classes ul');
 let tableResultBody = document.querySelector('section#results tbody');
 
+// let status = ['OK', 'DNS', 'DNF', 'MP', 'DSQ', 'OT', , , , 'Not Started Yet', 'Not Started Yet', 'Walkover', 'Moved Up']
+
 for (let competitionClass of competitionClasses) {
     let listItem = document.createElement('li');
     let link = document.createElement('a');
@@ -50,17 +52,75 @@ for (let competitionClass of competitionClasses) {
         let newChildren = [];
         for (const runner of classResults) {
             let runnerRow = document.createElement('tr');
+            let { place, result, timeplus } = getRunnerDetails(runner);
             runnerRow.innerHTML = `
-            <td>${runner.place}</td>
+            <td>${place}</td>
             <td>${runner.name}</td>
-            <td>${runner.result}</td>
-            <td>${runner.timeplus}</td>
+            <td>${result}</td>
+            <td>${timeplus}</td>
             `;
             newChildren.push(runnerRow);
         }
         tableResultBody.replaceChildren(...newChildren);
         document.querySelector('section#results table').classList.remove('hidden');
     });
+}
+
+function getRunnerDetails(runner) {
+    let place, result, timeplus;
+    switch (runner.status) {
+        case 0: { // OK
+            place = runner.place;
+            result = runner.result;
+            timeplus = runner.timeplus;
+            break;
+        }
+        case 1:
+        case 9:
+        case 10: { // DNS
+            place = '-';
+            result = 'Non parti(e)';
+            timeplus = '-';
+            break;
+        }
+        case 2: { // DNF
+            place = '-';
+            result = 'En course';
+            timeplus = '-';
+            break;
+        }
+        case 3: { // MP
+            place = '-';
+            result = 'P.M.';
+            timeplus = '-';
+            break;
+        }
+        case 4: { // DSQ
+            place = '-';
+            result = 'Disqualifié(e)';
+            timeplus = '-';
+            break;
+        }
+        case 5: { // OT
+            place = '-';
+            result = 'Hors délai';
+            timeplus = '-';
+            break;
+        }
+        case 11: { // Walkover
+            place = '-';
+            result = 'Abandon';
+            timeplus = '-';
+            break;
+        }
+        case 12: { // Moved Up
+            place = '-';
+            result = 'Surclassé(e)';
+            timeplus = '-';
+            break;
+        }
+    }
+    return { place, result, timeplus };
 }
 
 const settingsWrapper = document.querySelector('#settings-wrapper');
