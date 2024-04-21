@@ -1,5 +1,4 @@
 import LiveresultsAPI from './api.js';
-import { formatDate } from './utils.js';
 
 let competitions = await LiveresultsAPI.getCompetitions();
 
@@ -15,6 +14,10 @@ function isDateInFuture(date) {
     return date.getFullYear() > todayDate.getFullYear() ||
         (date.getFullYear() === todayDate.getFullYear() && date.getMonth() > todayDate.getMonth()) ||
         (date.getFullYear() === todayDate.getFullYear() && date.getMonth() === todayDate.getMonth() && date.getDate() > todayDate.getDate());
+}
+
+function formatDate(date) {
+    return date.split('-').reverse().join('/');
 }
 
 competitions = competitions.filter(competition => !isDateInFuture(new Date(competition.date))).map(competition => {

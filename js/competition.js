@@ -1,5 +1,8 @@
 import LiveresultsAPI from './api.js';
-import { formatDate } from './utils.js';
+
+function formatDate(date) {
+    return date.split('-').reverse().join('/');
+}
 
 let competitionId = new URLSearchParams(window.location.search).get('id');
 
