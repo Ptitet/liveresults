@@ -205,6 +205,10 @@ section {
             text-align: center;
             width: 100%;
 
+            &.hidden {
+                display: none;
+            }
+
             thead {
                 font-size: 1.2rem;
 

@@ -41,15 +41,22 @@ for (let competitionClass of competitionClasses) {
     classList.appendChild(listItem);
 
     link.addEventListener('click', async (event) => {
+        event.preventDefault();
         for (let otherLink of classList.querySelectorAll('a')) {
             otherLink.classList.remove('active');
         }
         link.classList.add('active');
         document.querySelector('section#results p')?.remove();
-        event.preventDefault();
         let classResults = await LiveresultsAPI.getClassResults(competitionId, competitionClass);
         classResults.sort((a, b) => +a.place - +b.place); // make sure the results are sorted
         let newChildren = [];
+        if (!classResults.length) {
+            let noResultsParagraph = document.createElement('p');
+            noResultsParagraph.textContent = 'Aucun résultat pour cette catégorie';
+            document.querySelector('section#results table').classList.add('hidden');
+            document.querySelector('#results').appendChild(noResultsParagraph);
+            return;
+        }
         for (const runner of classResults) {
             let runnerRow = document.createElement('tr');
             let { place, result, timeplus } = getRunnerDetails(runner);

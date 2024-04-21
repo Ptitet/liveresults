@@ -175,6 +175,9 @@ section#results table {
   text-align: center;
   width: 100%;
 }
+section#results table.hidden {
+  display: none;
+}
 section#results table thead {
   font-size: 1.2rem;
 }
