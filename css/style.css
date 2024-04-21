@@ -45,7 +45,6 @@ header #nav-home {
 
 section {
   padding: 2rem 1rem;
-  border-top: 1px solid grey;
   border-top: 1px solid #ec7404;
   position: relative;
 }
@@ -107,20 +106,14 @@ section ul#date-list {
   flex-direction: column;
   gap: 0.5rem;
 }
-section ul#date-list input[type=checkbox] {
-  display: none;
-}
-section ul#date-list input[type=checkbox]:checked ~ ul.competitions-list {
-  display: grid;
-}
-section ul#date-list input[type=checkbox]:checked ~ label h2::before {
-  rotate: 90deg;
-}
 section ul#date-list ul.competitions-list {
-  display: none;
   margin: 1rem 0;
 }
-section ul#date-list h2 {
+section ul#date-list details[open] summary::before {
+  rotate: 90deg;
+}
+section ul#date-list summary {
+  font-size: 1.4em;
   width: -moz-fit-content;
   width: fit-content;
   cursor: pointer;
@@ -129,16 +122,20 @@ section ul#date-list h2 {
      -moz-user-select: none;
           user-select: none;
   font-family: monospace;
+  transition: color 200ms;
 }
-section ul#date-list h2::before {
+section ul#date-list summary::-webkit-details-marker {
+  display: none;
+}
+section ul#date-list summary::before {
   content: "▶";
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   display: inline-block;
   margin-right: 5px;
   transition: rotate 100ms;
 }
-section#classes {
-  padding-bottom: 1rem;
+section ul#date-list summary:hover {
+  color: #eee;
 }
 section#classes ul {
   display: flex;
@@ -175,12 +172,18 @@ section#results table {
   text-align: center;
   width: 100%;
 }
+section#results table.hidden {
+  display: none;
+}
 section#results table thead {
   font-size: 1.2rem;
+  position: sticky;
+  top: 0;
+  background: #222;
 }
 section#results table thead th {
-  padding-bottom: 0.4rem;
   border-bottom: 1px solid #ec7404;
+  padding: 0.4rem 0;
 }
 section#results table tbody {
   font-size: 1rem;

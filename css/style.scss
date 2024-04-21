@@ -49,7 +49,6 @@ header {
 
 section {
     padding: 2rem 1rem;
-    border-top: 1px solid grey;
     border-top: 1px solid #ec7404;
     position: relative;
 
@@ -124,31 +123,27 @@ section {
         flex-direction: column;
         gap: 0.5rem;
 
-        input[type=checkbox] {
-            display: none;
-
-            &:checked {
-                ~ul.competitions-list {
-                    display: grid;
-                }
-
-                ~label h2::before {
-                    rotate: 90deg;
-                }
-            }
-        }
-
         ul.competitions-list {
-            display: none;
             margin: 1rem 0;
         }
 
-        h2 {
+        details[open] summary::before {
+            rotate: 90deg;
+        }
+
+        summary {
+            font-size: 1.4em;
             width: fit-content;
             cursor: pointer;
             color: #bbb;
             user-select: none;
             font-family: monospace;
+            transition: color 200ms;
+            // padding-left: 10px;
+
+            &::-webkit-details-marker {
+                display: none;
+            }
 
             &::before {
                 content: '▶';
@@ -157,11 +152,14 @@ section {
                 margin-right: 5px;
                 transition: rotate 100ms;
             }
+
+            &:hover {
+                color: #eee;
+            }
         }
     }
 
     &#classes {
-        padding-bottom: 1rem;
 
         ul {
             display: flex;
@@ -206,12 +204,19 @@ section {
             text-align: center;
             width: 100%;
 
+            &.hidden {
+                display: none;
+            }
+
             thead {
                 font-size: 1.2rem;
-
+                position: sticky;
+                top: 0;
+                background: #222;
+                
                 th {
-                    padding-bottom: 0.4rem;
                     border-bottom: 1px solid #ec7404;
+                    padding: 0.4rem 0;
                 }
             }
 
