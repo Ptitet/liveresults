@@ -18,9 +18,9 @@ try {
 if (!competition.date) {
     window.location.href = '/';
 }
-
-document.title += ` - ${competition.name}`;
-document.querySelector('#competition-infos h3').textContent = competition.name || 'Compétition sans nom';
+const competitinoName = competition.name || 'Compétition sans nom';
+document.title += ` - ${competitinoName}`;
+document.querySelector('#competition-infos h3').textContent = competitinoName;
 document.querySelector('span#competition-date').textContent = formatDate(competition.date);
 document.querySelector('span#competition-organizer').textContent = competition.organizer || 'Organisateur inconnu';
 
