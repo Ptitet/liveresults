@@ -49,23 +49,15 @@ for (let date in groupedNotLiveTodayCompetitions) {
 }
 
 function generateDateContainer(date) {
-    let listItem = document.createElement('li');
-    let label = document.createElement('label');
-    let checkBox = document.createElement('input');
-    checkBox.type = 'checkbox';
-    let dateElement = document.createElement('h2');
-    dateElement.textContent = date;
-    label.appendChild(dateElement);
-    let replacedDate = date.replace(/\//g, '');
-    label.htmlFor = replacedDate;
-    checkBox.id = replacedDate;
-    listItem.appendChild(checkBox);
-    listItem.appendChild(label);
-    let thisDateCompetitionsList = document.createElement('ul');
-    thisDateCompetitionsList.classList.add('competitions-list');
-    listItem.appendChild(thisDateCompetitionsList);
-    notLiveTodayList.appendChild(listItem);
-    return thisDateCompetitionsList;
+    let detailsElement = document.createElement('details');
+    let summaryElement = document.createElement('summary');
+    summaryElement.textContent = date;
+    detailsElement.appendChild(summaryElement);
+    let competitionsList = document.createElement('ul');
+    competitionsList.classList.add('competitions-list');
+    detailsElement.appendChild(competitionsList);
+    notLiveTodayList.appendChild(detailsElement);
+    return competitionsList;
 }
 
 function generateCompetitionLink(competition) {
