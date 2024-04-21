@@ -137,9 +137,6 @@ section ul#date-list summary::before {
 section ul#date-list summary:hover {
   color: #eee;
 }
-section#classes {
-  padding-bottom: 1rem;
-}
 section#classes ul {
   display: flex;
   overflow-x: scroll;

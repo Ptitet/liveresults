@@ -33,6 +33,13 @@ let tableResultBody = document.querySelector('section#results tbody');
 
 // let status = ['OK', 'DNS', 'DNF', 'MP', 'DSQ', 'OT', , , , 'Not Started Yet', 'Not Started Yet', 'Walkover', 'Moved Up']
 
+if (!competitionClasses.length) {
+    let noResultsParagraph = document.createElement('p');
+    noResultsParagraph.textContent = 'Aucune catégorie pour cette compétition';
+    classList.remove();
+    document.querySelector('#classes').appendChild(noResultsParagraph);
+}
+
 for (let competitionClass of competitionClasses) {
     let listItem = document.createElement('li');
     let link = document.createElement('a');
