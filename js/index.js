@@ -74,9 +74,9 @@ function generateCompetitionLink(competition) {
     link.classList.add('btn-like');
     link.href = `competition.html?id=${competition.id}`;
     let competitionName = document.createElement('h3');
-    competitionName.textContent = competition.name;
+    competitionName.textContent = competition.name || 'Compétition sans nom';
     let competitionOrganizer = document.createElement('p');
-    competitionOrganizer.textContent = competition.organizer;
+    competitionOrganizer.textContent = competition.organizer || 'Organisateur inconnu';
     link.appendChild(competitionName);
     link.appendChild(competitionOrganizer);
     listItem.appendChild(link);
