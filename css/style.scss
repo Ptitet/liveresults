@@ -211,10 +211,13 @@ section {
 
             thead {
                 font-size: 1.2rem;
-
+                position: sticky;
+                top: 0;
+                background: #222;
+                
                 th {
-                    padding-bottom: 0.4rem;
                     border-bottom: 1px solid #ec7404;
+                    padding: 0.4rem 0;
                 }
             }
 
