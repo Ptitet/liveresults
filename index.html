@@ -12,7 +12,27 @@
 <body>
     <header>
         <h1>Liveresults</h1>
+        <span id="settings" class="nav-icon">⚙️</span>
     </header>
+    <section id="settings-wrapper" class="hidden">
+        <div id="settings-card">
+            <span id="settings-close-btn">❌</span>
+            <h2>Paramètres</h2>
+            <ul id="settings-list">
+                <li>
+                    <h3>Langue</h3>
+                    <select id="setting-lang">
+                        <option value="french">Français</option>
+                    </select>
+                </li>
+                <li>
+                    <h3>Cache</h3>
+                    <p><span id="cache-size"></span> éléments</p>
+                    <button class="btn-like" id="setting-clear-cache">Supprimer le cache</button>
+                </li>
+            </ul>
+        </div>
+    </section>
     <main>
         <section id="search">
             <h2 class="section-title">Rechercher</h2>

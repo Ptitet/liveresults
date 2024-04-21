@@ -4,26 +4,43 @@
   padding: 0;
   box-sizing: border-box;
   list-style: none;
-  color: unset;
 }
 
 body {
   background: #222;
   color: #eee;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  width: min(100%, 1200px);
+  margin: auto;
 }
 
 header {
   margin: 1.5rem 0 2.5rem;
+  position: relative;
+  position: relative;
+}
+header .nav-icon {
+  font-size: 1.7rem;
+  position: absolute;
+  cursor: pointer;
 }
 header h1 {
   text-align: center;
   font-size: 2.5rem;
 }
-
-main {
-  width: min(100%, 1200px);
-  margin: auto;
+header #settings {
+  top: 50%;
+  right: 30px;
+  translate: 0 -50%;
+  transition: rotate 250ms;
+}
+header #settings:hover {
+  rotate: 90deg;
+}
+header #nav-home {
+  top: 50%;
+  left: 30px;
+  translate: 0 -50%;
 }
 
 section {
@@ -42,8 +59,9 @@ section#search input {
   border: none;
   width: min(100%, 400px);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  transition: outline 60ms;
 }
-section#search input:focus {
+section#search input:focus, section#search input:hover {
   outline: 2px solid #ec7404;
 }
 section#search #result-count {
@@ -67,18 +85,10 @@ section ul.competitions-list {
 section ul.competitions-list li a {
   height: 100%;
   display: block;
-  background: #313131;
   padding: 0.75rem 1rem;
   border-radius: 0.5rem;
   text-decoration: none;
   font-weight: bold;
-  transition: 200ms;
-  transition-property: background, box-shadow, scale;
-}
-section ul.competitions-list li a:hover {
-  background: #ec7404;
-  box-shadow: 0 0 20px #111;
-  scale: 1.015;
 }
 section ul.competitions-list li a:hover p {
   color: #2f2f2f;
@@ -165,9 +175,6 @@ section#results table {
   text-align: center;
   width: 100%;
 }
-section#results table.hidden {
-  display: none;
-}
 section#results table thead {
   font-size: 1.2rem;
 }
@@ -194,4 +201,93 @@ section#results table tbody tr td {
 }
 section#competition-infos p {
   font-size: 0.9rem;
+}
+section#settings-wrapper {
+  z-index: 1;
+  position: fixed;
+  border: none;
+  -webkit-backdrop-filter: brightness(50%) blur(5px);
+          backdrop-filter: brightness(50%) blur(5px);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  display: grid;
+  place-items: center;
+}
+section#settings-wrapper.hidden {
+  display: none;
+}
+section#settings-wrapper #settings-card {
+  background: #222;
+  padding: 1rem;
+  border-radius: 1rem;
+  width: max(200px, 75vw);
+}
+section#settings-wrapper #settings-card ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+section#settings-wrapper #settings-card ul li {
+  margin-top: 1rem;
+  display: block;
+  border-top: 1px solid #ec7404;
+  position: relative;
+  padding-top: 1.5rem;
+}
+section#settings-wrapper #settings-card ul li h3 {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #222;
+  padding: 0 1rem;
+}
+section#settings-wrapper #settings-card ul li select, section#settings-wrapper #settings-card ul li button, section#settings-wrapper #settings-card ul li p, section#settings-wrapper #settings-card ul li span {
+  font-size: 0.9rem;
+}
+section#settings-wrapper #settings-card ul li select {
+  background: #333;
+  color: #eee;
+  padding: 10px 20px;
+  border-radius: 15px;
+  border: none;
+  margin: auto;
+  display: block;
+  transition: 70ms;
+}
+section#settings-wrapper #settings-card ul li select:focus, section#settings-wrapper #settings-card ul li select:hover {
+  outline: 2px solid #ec7404;
+}
+section#settings-wrapper #settings-card ul li button {
+  padding: 10px;
+  border-radius: 15px;
+  border: none;
+  margin: auto;
+  display: block;
+}
+section#settings-wrapper #settings-card ul li p {
+  text-align: center;
+  margin-bottom: 10px;
+}
+section#settings-wrapper #settings-close-btn {
+  cursor: pointer;
+  display: inline-block;
+  font-size: 1.4rem;
+  padding: 5px;
+  transform: translate(-5px, -5px);
+}
+
+.btn-like {
+  background: #333;
+  color: #eee;
+  transition: 200ms;
+  transition-property: background, scale, box-shadow;
+}
+.btn-like:hover {
+  box-shadow: 0 0 10px #111;
+  background: #ec7404;
+  scale: 1.015;
 }

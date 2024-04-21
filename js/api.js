@@ -164,6 +164,11 @@ export default class LiveresultsAPI {
         let response = await this.makeAPICall('getclubresults', { comp: competitionId, club: clubName});
         return response.results;
     }
+
+    static clearCache() {
+        LiveresultsAPI.cacheManager.dataCache.clear();
+        LiveresultsAPI.cacheManager.requestCache.clear();
+    }
 }
 
 window.onbeforeunload = () => {

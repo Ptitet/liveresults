@@ -20,12 +20,12 @@ if (!competition.date) {
 }
 
 document.title += ` - ${competition.name}`;
-document.querySelector('h3').textContent = competition.name;
+document.querySelector('#competition-infos h3').textContent = competition.name;
 document.querySelector('span#competition-date').textContent = formatDate(competition.date);
 document.querySelector('span#competition-organizer').textContent = competition.organizer;
 
 let competitionClasses = (await LiveresultsAPI.getClasses(competitionId));
-let classList = document.querySelector('ul');
+let classList = document.querySelector('#classes ul');
 let tableResultBody = document.querySelector('section#results tbody');
 
 for (let competitionClass of competitionClasses) {
@@ -59,3 +59,22 @@ for (let competitionClass of competitionClasses) {
         document.querySelector('section#results table').classList.remove('hidden');
     });
 }
+
+const settingsWrapper = document.querySelector('#settings-wrapper');
+
+document.querySelector('#settings').addEventListener('click', () => {
+    settingsWrapper.classList.toggle('hidden');
+});
+
+document.querySelector('#settings-close-btn').addEventListener('click', () => {
+    settingsWrapper.classList.add('hidden');
+});
+
+const cacheSizeElement = document.querySelector('#cache-size');
+
+document.querySelector('#setting-clear-cache').addEventListener('click', () => {
+    LiveresultsAPI.clearCache();
+    cacheSizeElement.textContent = 0;
+});
+
+cacheSizeElement.textContent = LiveresultsAPI.cacheManager.dataCache.size;

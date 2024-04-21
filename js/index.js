@@ -22,8 +22,6 @@ competitions = competitions.filter(competition => !isDateInFuture(new Date(compe
     return competition;
 });
 
-console.log(competitions);
-
 let liveTodayCompetitions = competitions.filter(competition => areDatesSameDay(new Date(competition.date), todayDate));
 let notLiveTodayCompetitions = competitions.filter(competition => !areDatesSameDay(new Date(competition.date), todayDate));
 
@@ -73,6 +71,7 @@ function generateDateContainer(date) {
 function generateCompetitionLink(competition) {
     let listItem = document.createElement('li');
     let link = document.createElement('a');
+    link.classList.add('btn-like');
     link.href = `competition.html?id=${competition.id}`;
     let competitionName = document.createElement('h3');
     competitionName.textContent = competition.name;
@@ -109,3 +108,22 @@ searchInput.addEventListener('input', event => {
     }
     resultsCount.textContent = `${results.length} résultat${results.length === 1 ? '' : 's'}`;
 });
+
+const settingsWrapper = document.querySelector('#settings-wrapper');
+
+document.querySelector('#settings').addEventListener('click', () => {
+    settingsWrapper.classList.toggle('hidden');
+});
+
+document.querySelector('#settings-close-btn').addEventListener('click', () => {
+    settingsWrapper.classList.add('hidden');
+});
+
+const cacheSizeElement = document.querySelector('#cache-size');
+
+document.querySelector('#setting-clear-cache').addEventListener('click', () => {
+    LiveresultsAPI.clearCache();
+    cacheSizeElement.textContent = 0;
+});
+
+cacheSizeElement.textContent = LiveresultsAPI.cacheManager.dataCache.size;

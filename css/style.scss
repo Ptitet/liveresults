@@ -3,27 +3,48 @@
     padding: 0;
     box-sizing: border-box;
     list-style: none;
-    color: unset;
 }
 
 body {
     background: #222;
     color: #eee;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    width: min(100%, 1200px);
+    margin: auto;
 }
 
 header {
     margin: 1.5rem 0 2.5rem;
+    position: relative;
+    position: relative;
+
+    .nav-icon {
+        font-size: 1.7rem;
+        position: absolute;
+        cursor: pointer;
+    }
 
     h1 {
         text-align: center;
         font-size: 2.5rem;
     }
-}
 
-main {
-    width: min(100%, 1200px);
-    margin: auto;
+    #settings {
+        top: 50%;
+        right: 30px;
+        translate: 0 -50%;
+        transition: rotate 250ms;
+
+        &:hover {
+            rotate: 90deg;
+        }
+    }
+
+    #nav-home {
+        top: 50%;
+        left: 30px;
+        translate: 0 -50%;
+    }
 }
 
 section {
@@ -44,8 +65,9 @@ section {
             border: none;
             width: min(100%, 400px);
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            transition: outline 60ms;
 
-            &:focus {
+            &:focus, &:hover {
                 outline: 2px solid #ec7404;
             }
         }
@@ -75,22 +97,13 @@ section {
         li a {
             height: 100%;
             display: block;
-            background: #313131;
             padding: 0.75rem 1rem;
             border-radius: 0.5rem;
             text-decoration: none;
             font-weight: bold;
-            transition: 200ms;
-            transition-property: background, box-shadow, scale;
 
-            &:hover {
-                background: #ec7404;
-                box-shadow: 0 0 20px #111;
-                scale: 1.015;
-
-                p {
-                    color: #2f2f2f;
-                }
+            &:hover p {
+                color: #2f2f2f;
             }
 
             h3 {
@@ -193,10 +206,6 @@ section {
             text-align: center;
             width: 100%;
 
-            &.hidden {
-                display: none;
-            }
-
             thead {
                 font-size: 1.2rem;
 
@@ -237,5 +246,106 @@ section {
         p {
             font-size: 0.9rem;
         }
+    }
+
+    &#settings-wrapper {
+        z-index: 1;
+        position: fixed;
+        border: none;
+        backdrop-filter: brightness(50%) blur(5px);
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        display: grid;
+        place-items: center;
+
+        &.hidden {
+            display: none;
+        }
+
+        #settings-card {
+            background: #222;
+            padding: 1rem;
+            border-radius: 1rem;
+            width: max(200px, 75vw);
+
+            ul {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+
+                li {
+                    margin-top: 1rem;
+                    display: block;
+                    border-top: 1px solid #ec7404;
+                    position: relative;
+                    padding-top: 1.5rem;
+
+                    h3 {
+                        position: absolute;
+                        top: 0;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        background: #222;
+                        padding: 0 1rem;
+                    }
+
+                    select, button, p, span {
+                        font-size: 0.9rem;
+                    }
+
+                    select {
+                        background: #333;
+                        color: #eee;
+                        padding: 10px 20px;
+                        border-radius: 15px;
+                        border: none;
+                        margin: auto;
+                        display: block;
+                        transition: 70ms;
+
+                        &:focus, &:hover {
+                            outline: 2px solid #ec7404;
+                        }
+                    }
+
+                    button {
+                        padding: 10px;
+                        border-radius: 15px;
+                        border: none;
+                        margin: auto;
+                        display: block;
+                    }
+
+                    p {
+                        text-align: center;
+                        margin-bottom: 10px;
+                    }
+                }
+            }
+        }
+
+        #settings-close-btn {
+            cursor: pointer;
+            display: inline-block;
+            font-size: 1.4rem;
+            padding: 5px;
+            transform: translate(-5px, -5px);
+        }
+    }
+}
+
+.btn-like {
+    background: #333;
+    color: #eee;
+    transition: 200ms;
+    transition-property: background, scale, box-shadow;
+
+    &:hover {
+        box-shadow: 0 0 10px #111;
+        background: #ec7404;
+        scale: 1.015;
     }
 }
