@@ -140,6 +140,9 @@ export default class LiveresultsAPI {
      */
     static async getClasses(competitionId) {
         let response = await this.makeAPICall('getclasses', { comp: competitionId });
+        if (!response.classes) {
+            return [];
+        }
         return response.classes.map(c => c.className);
     }
 
