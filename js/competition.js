@@ -7,7 +7,7 @@ function formatDate(date) {
 let competitionId = new URLSearchParams(window.location.search).get('id');
 
 if (!competitionId) {
-    window.location.href = '/';
+    window.location.href = '/liveresults';
 }
 
 let competition;
@@ -15,11 +15,11 @@ let competition;
 try {
     competition = await LiveresultsAPI.getCompetition(competitionId);
 } catch (error) {
-    window.location.href = '/';
+    window.location.href = '/liveresults';
 }
 
 if (!competition.date) {
-    window.location.href = '/';
+    window.location.href = '/liveresults';
 }
 const competitinoName = competition.name || 'Compétition sans nom';
 document.title += ` - ${competitinoName}`;
