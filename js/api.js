@@ -67,11 +67,7 @@ export default class LiveresultsAPI {
         if (lastHash) {
             requestURL += `&last_hash=${lastHash}`;
         }
-        let apiResponse = await (await fetch(requestURL)).text();
-        // ! begin hotfix bad JSON
-        apiResponse = apiResponse.replace('"Наталка"', 'Наталка');
-        apiResponse = JSON.parse(apiResponse);
-        // ! end hotfix bad JSON
+        let apiResponse = await (await fetch(requestURL)).json();
         if (lastHash) {
             if (apiResponse.status === 'NOT MODIFIED') {
                 console.log(`Cache hit for ${URLCacheKey}`);
