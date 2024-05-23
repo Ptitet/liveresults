@@ -188,7 +188,7 @@ section#results table thead th {
 section#results table tbody {
   font-size: 1rem;
 }
-section#results table tbody tr:nth-child(even) {
+section#results table tbody tr:nth-child(odd) {
   background: rgba(236, 116, 4, 0.0901960784);
 }
 section#results table tbody tr td {
