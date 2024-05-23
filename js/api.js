@@ -55,7 +55,7 @@ export default class LiveresultsAPI {
         let searchParams = new URLSearchParams();
         searchParams.set('method', method);
         for (let key in params) {
-            searchParams.set(key, params[key]);
+            searchParams.set(key, encodeURIComponent(params[key]));
         }
         let url = new URL(LiveresultsAPI.url);
         url.search = searchParams.toString();
