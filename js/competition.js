@@ -21,9 +21,9 @@ try {
 if (!competition.date) {
     window.location.href = '/liveresults';
 }
-const competitinoName = competition.name || 'Compétition sans nom';
-document.title += ` - ${competitinoName}`;
-document.querySelector('#competition-infos h3').textContent = competitinoName;
+const competitionName = competition.name || 'Compétition sans nom';
+document.title += ` - ${competitionName}`;
+document.querySelector('#competition-infos h3').textContent = competitionName;
 document.querySelector('span#competition-date').textContent = formatDate(competition.date);
 document.querySelector('span#competition-organizer').textContent = competition.organizer || 'Organisateur inconnu';
 
