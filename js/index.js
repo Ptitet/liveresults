@@ -1,6 +1,18 @@
 import LiveresultsAPI from './api.js';
 
-let competitions = await LiveresultsAPI.getCompetitions();
+
+let competitions;
+try {
+    competitions = await LiveresultsAPI.getCompetitions();
+} catch (error) {
+    if (error.message.includes('NetworkError')) {
+        alert('Erreur de réseau : veuillez vérifier votre connexion internet.');
+    } else {
+        alert('Une erreur est survenue.');
+    }
+}
+
+document.querySelectorAll('.loading').forEach(loader => loader.style.display = 'none');
 
 function areDatesSameDay(date1, date2) {
     return date1.getFullYear() === date2.getFullYear() &&

@@ -15,17 +15,21 @@ let competition;
 try {
     competition = await LiveresultsAPI.getCompetition(competitionId);
 } catch (error) {
-    window.location.href = '/liveresults';
+    if (error.message.includes('NetworkError')) {
+        alert('Erreur de réseau : veuillez vérifier votre connexion internet.');
+    } else {
+        alert('Une erreur est survenue.');
+    }
 }
+
+document.querySelectorAll('.loading').forEach(loader => loader.style.display = 'none');
 
 if (!competition.date) {
     window.location.href = '/liveresults';
 }
 const competitionName = competition.name || 'Compétition sans nom';
 document.title += ` - ${competitionName}`;
-document.querySelector('#competition-infos h3').textContent = competitionName;
-document.querySelector('span#competition-date').textContent = formatDate(competition.date);
-document.querySelector('span#competition-organizer').textContent = competition.organizer || 'Organisateur inconnu';
+fillCompetitionInfos(competitionName, competition.date, competition.organizer);
 
 let competitionClasses = (await LiveresultsAPI.getClasses(competitionId));
 let classList = document.querySelector('#classes ul');
@@ -155,3 +159,16 @@ document.querySelector('#setting-clear-cache').addEventListener('click', () => {
 });
 
 cacheSizeElement.textContent = LiveresultsAPI.cacheManager.dataCache.size;
+
+function fillCompetitionInfos(name, organizer, date) {
+    const competitionInfosWrapper = document.querySelector('#competition-infos');
+    const competitionTitleElement = document.createElement('h3');
+    competitionTitleElement.innerText = name;
+    const competitionOrganizerElement = document.createElement('p');
+    competitionOrganizerElement.innerText = `Organisateur : ${organizer}`;
+    const competitionDateElement = document.createElement('p');
+    competitionDateElement.innerText = `Date : ${formatDate(date)}`;
+    competitionInfosWrapper.appendChild(competitionTitleElement);
+    competitionInfosWrapper.appendChild(competitionOrganizerElement);
+    competitionInfosWrapper.appendChild(competitionDateElement);
+}
