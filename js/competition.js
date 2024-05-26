@@ -29,7 +29,7 @@ if (!competition.date) {
 }
 const competitionName = competition.name || 'Compétition sans nom';
 document.title += ` - ${competitionName}`;
-fillCompetitionInfos(competitionName, competition.date, competition.organizer);
+fillCompetitionInfos(competitionName, competition.organizer, competition.date);
 
 let competitionClasses = (await LiveresultsAPI.getClasses(competitionId));
 let classList = document.querySelector('#classes ul');
